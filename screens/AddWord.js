@@ -17,25 +17,14 @@ function AddWord({ switchScreen, setWords }) {
   const [wordInfo, setWordInfo] = useState(null);
 
   useEffect(() => {
-    if (text.trim() === "") {
-      setWordInfo(null);
-      return;
-    }
-
-    let cancelled = false;
-
     const timer = setTimeout(async () => {
-      const info = await getWordInfo(text);
-
-      if (!cancelled) {
+      if (text.trim()) {
+        const info = await getWordInfo(text);
         setWordInfo(info);
       }
     }, 1000);
 
-    return () => {
-      cancelled = true;
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, [text]);
 
   const addWord = () => {
